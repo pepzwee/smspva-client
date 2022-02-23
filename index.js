@@ -32,8 +32,7 @@ class SMSPVAClient {
      */
     async getNumber(opts = {}) {
         const { country, service } = opts;
-        const provider = projects.serviceToPID[service];
-        const { body } = await this._client(`http://smspva.com/priemnik.php?metod=get_number&country=${country}&service=${provider}&apikey=${this._key}`);
+        const { body } = await this._client(`http://smspva.com/priemnik.php?metod=get_number&country=${country}&service=${service}&apikey=${this._key}`);
         return body;
     }
 
@@ -42,8 +41,9 @@ class SMSPVAClient {
      * @description Returns User's balance
      * @returns {number} User's balance
      */
-    async getBalance() {
-        const { body } = await this._client(`http://smspva.com/priemnik.php?metod=getBalance&service=opt4&apikey=${this._key}`);
+    async getBalance(opts = {}) {
+        const { service } = opts;
+        const { body } = await this._client(`http://smspva.com/priemnik.php?metod=getBalance&service=${service}&apikey=${this._key}`);
         const currentBalance = Number(body.balance);
         return currentBalance;
     }
@@ -57,10 +57,8 @@ class SMSPVAClient {
      * @returns {string} SMS Code
      */
     async getSMS(opts = {}) {
-        const { id, country = 'US', service = 'google', retries = 20 } = opts;
-        const provider = projects.serviceToPID[service];
-
-        const { body } = await this._client(`http://smspva.com/priemnik.php?metod=get_sms&country=${country}&service=${provider}&id=${id}&apikey=${this._key}`);
+        const { id, country = 'US', service = 'opt1', retries = 20 } = opts;
+        const { body } = await this._client(`http://smspva.com/priemnik.php?metod=get_sms&country=${country}&service=${service}&id=${id}&apikey=${this._key}`);
         const { response } = body;
 
         // SMS has not been found yet
@@ -83,8 +81,7 @@ class SMSPVAClient {
     */
     async ban(opts = {}) {
         const { id, country = 'US', service } = opts;
-        const provider = projects.serviceToPID[service];
-        const { body } = await this._client(`http://smspva.com/priemnik.php?metod=denial&country=${country}&service=${provider}&apikey=${this._key}&id=${id}`);
+        const { body } = await this._client(`http://smspva.com/priemnik.php?metod=denial&country=${country}&service=${service}&apikey=${this._key}&id=${id}`);
         const { response } = body;
 
         if (projects.errorCodes.includes(response)) {
@@ -104,8 +101,7 @@ class SMSPVAClient {
      */
     async getCountNew(opts = {}) {
         const { service, country } = opts;
-        const provider = projects.serviceToPID[service];
-        const { body } = await this._client(`http://smspva.com/priemnik.php?metod=get_count_new&country=${country}&service=${provider}&apikey=${this._key}`);
+        const { body } = await this._client(`http://smspva.com/priemnik.php?metod=get_count_new&country=${country}&service=${service}&apikey=${this._key}`);
         const { online } = body;
         return Number(online);
     }
