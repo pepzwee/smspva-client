@@ -1,6 +1,8 @@
 const got = require('got');
 const projects = require('./lib/projects');
 
+const wait = ms => new Promise(resolve => setTimeout(resolve, ms))
+
 /**
  * @class SMSPVAClient
  * @description Wrapper class for the smspva.com API
