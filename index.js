@@ -43,7 +43,7 @@ class SMSPVAClient {
      */
     async getBalance(opts = {}) {
         const { service } = opts;
-        const { body } = await this._client(`http://smspva.com/priemnik.php?metod=getBalance&service=${service}&apikey=${this._key}`);
+        const { body } = await this._client(`http://smspva.com/priemnik.php?metod=get_balance&service=${service}&apikey=${this._key}`);
         const currentBalance = Number(body.balance);
         return currentBalance;
     }
