@@ -66,7 +66,7 @@ class SMSPVAClient {
         // SMS has not been found yet
         if (response === '2') {
             await wait(20000);
-            return await this.getSMS(id, country, service, retries - 1);
+            return await this.getSMS({ id, country, service, retries: retries - 1 });
         }
 
         if (response === '1') {
